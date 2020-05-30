@@ -1,0 +1,20 @@
+# Dry run generate YAML
+kubectl run myweatherservice --image=docker.io/therealmarkcastillo/myweatherservice --port=80 --labels app=myweatherservice --dry-run -o yaml
+kubectl expose deployment myweatherservice --port=8888 --target-port=80 --type=LoadBalancer --name=myweatherservice-lb   --dry-run -o yaml
+
+# Run my weather service
+kubectl run myweatherservice --image=docker.io/therealmarkcastillo/myweatherservice --port=80 --labels app=myweatherservice
+
+# Add loadbalancer to expose
+kubectl expose deployment myweatherservice --port=8888 --target-port=80 --type=LoadBalancer --name=myweatherservice-lb                                                                                                                                 weatherservice-lb
+
+# Generate the YAML
+kubectl get deployment myweatherservice -o yaml
+kubectl get service  myweatherservice-lb -o yaml
+
+# Cleanup
+kubectl delete deployment myweatherservice
+kubectl delete service myweatherservice-lb
+
+# Endpoint
+http://localhost:8888/weatherforecast

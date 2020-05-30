@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myweatherservice
+  name: myweatherservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myweatherservice
+  template:
+    metadata:
+      labels:
+        app: myweatherservice
+    spec:
+      containers:
+      - image: docker.io/therealmarkcastillo/myweatherservice
+        name: myweatherservice
+        ports:
+        - containerPort: 80

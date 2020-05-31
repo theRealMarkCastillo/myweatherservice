@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myweatherservice
+  name: myweatherservice
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myweatherservice
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: myweatherservice
+    spec:
+      containers:
+        - image: gcr.io/coderdotcom/github.com/therealmarkcastillo/myweatherservice
+          imagePullPolicy: Always
+          name: myweatherservice
+          ports:
+            - containerPort: 80
+              protocol: TCP
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: myweatherservice
+  namespace: default
+spec:
+  maxReplicas: 9
+  metrics:
+    - resource:
+        name: cpu
+        targetAverageUtilization: 80
+      type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: myweatherservice
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: myweatherservice
+  name: myweatherservice-lb
+  namespace: default
+spec:
+  clusterIP: 10.8.11.66
+  externalTrafficPolicy: Cluster
+  ports:
+    - nodePort: 31162
+      port: 8888
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: myweatherservice
+  sessionAffinity: None
+  type: LoadBalancer
+

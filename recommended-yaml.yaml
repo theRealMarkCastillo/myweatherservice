@@ -21,7 +21,7 @@ spec:
         app: myweatherservice
     spec:
       containers:
-        - image: gcr.io/coderdotcom/github.com/therealmarkcastillo/myweatherservice
+        - image: gcr.io/weather-api-279018/github.com/therealmarkcastillo/myweatherservice@sha256:7d6edabeaf81cb021f1f46976723cd619a616548f474be30b0c7e6b006cec5d9
           imagePullPolicy: Always
           name: myweatherservice
           ports:

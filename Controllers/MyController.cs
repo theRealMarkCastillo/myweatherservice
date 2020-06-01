@@ -22,7 +22,7 @@ namespace myweatherservice.Controllers
         [HttpGet]
         public string Get()
         {
-            return "GOODBYE!";
+            return "FOOOOE!";
         }
     }
 }

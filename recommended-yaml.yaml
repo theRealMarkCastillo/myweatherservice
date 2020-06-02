@@ -34,13 +34,13 @@ metadata:
   name: myweatherservice
   namespace: default
 spec:
-  maxReplicas: 9
+  maxReplicas: 8
   metrics:
     - resource:
         name: cpu
         targetAverageUtilization: 80
       type: Resource
-  minReplicas: 3
+  minReplicas: 1
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
